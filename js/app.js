@@ -4,6 +4,9 @@ import TapTempo from './TapTempo.js';
 import Messager from './Messager.js';
 
 let tapTemp = new TapTempo();
+tapTemp.onPulse = function() {
+    (new Flasher()).flashScreen();
+};
 
 (new Messager()).showMessage('Tap a beat', 'Use any key');
 

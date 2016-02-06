@@ -5,7 +5,8 @@ export default class TapTempo
     {
         this.rhythmQueue = [];
         this.tempoEl = document.getElementById('tempo-display');
-        this.tempo = 60;
+        // Callbacks
+        this.onPulse = null;
     }
 
     tap()
@@ -15,20 +16,36 @@ export default class TapTempo
             this.rhythmQueue.shift();
         }
         if (this.rhythmQueue.length === 3) {
-            this.calcTempo();
-            this.updateTempo();
+            this.calcTapTempo();
         }
     }
 
-    calcTempo()
+    calcTapTempo()
     {
-        let interval = (this.rhythmQueue[2] - this.rhythmQueue[0]) / this.rhythmQueue.length
-        let tempo = 60000 / interval;
-        this.tempo = Math.round(tempo);
+        let interval = (this.rhythmQueue[2] - this.rhythmQueue[0]) / (this.rhythmQueue.length - 1);
+        let tempo = Math.round(60000 / interval);
+        if (tempo !== this.tempo) {
+            this.updateTempo(tempo);
+        }
     }
 
-    updateTempo()
+    updateTempo(tempo)
     {
+        this.tempo = tempo;
+        let tempoInterval = 60000 / this.tempo;
+        if (this.tempoPulse) {
+            clearInterval(this.tempoPulse);
+        }
+        this.tempoPulse = setInterval(() => {
+            this.pulse();
+        }, tempoInterval);
         this.tempoEl.innerHTML = 'Tempo: ' + this.tempo;
+    }
+
+    pulse()
+    {
+        if (this.onPulse) {
+            this.onPulse();
+        }
     }
 }
