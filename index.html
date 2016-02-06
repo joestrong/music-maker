@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Music Maker</title>
+        <style>
+            body {
+                background: #ddd;
+            }
+            body.flash {
+                animation: flash 0.2s linear;
+            }
+            @-webkit-keyframes flash {
+                0% {
+                    background-color: #000;
+                }
+                100% {
+                    background-color: #ddd;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="message-area"></div>
+        <div id="tempo-display"></div>
+        <script>
+            "use strict";
+            let messageEl = document.getElementById('message-area');
+            function showMessage(message, submessage) {
+                messageEl.innerHTML = message;
+                if (submessage) {
+                    messageEl.innerHTML += submessage;
+                }
+            }
+
+            class Flasher
+            {
+
+                constructor()
+                {
+                    document.body.addEventListener('animationend', this.resetFlash);
+                }
+
+                flashScreen()
+                {
+                    document.body.className = 'flash';
+                }
+
+                resetFlash()
+                {
+                    document.body.className = '';
+                }
+            }
+
+            class TapTempo
+            {
+
+                constructor()
+                {
+                    this.rhythmQueue = [];
+                    this.tempoEl = document.getElementById('tempo-display');
+                    this.tempo = 60;
+                }
+
+                tap()
+                {
+                    this.rhythmQueue.push(Date.now());
+                    if (this.rhythmQueue.length > 3) {
+                        this.rhythmQueue.shift();
+                    }
+                    if (this.rhythmQueue.length === 3) {
+                        this.calcTempo();
+                        this.updateTempo();
+                    }
+                }
+
+                calcTempo()
+                {
+                    let interval = (this.rhythmQueue[2] - this.rhythmQueue[0]) / this.rhythmQueue.length
+                    let tempo = 60000 / interval;
+                    this.tempo = Math.round(tempo);
+                }
+
+                updateTempo()
+                {
+                    this.tempoEl.innerHTML = 'Tempo: ' + this.tempo;
+                }
+            }
+            function tapSound() {
+            }
+            showMessage('Tap a beat', 'Use any key');
+            let tapTemp = new TapTempo();
+            document.addEventListener('keydown', function() {
+                tapTemp.tap();
+                (new Flasher).flashScreen();
+                tapSound();
+            });
+        </script>
+    </body>
+</html>
