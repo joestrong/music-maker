@@ -1,5 +1,15 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 body {
     background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 body.flash {
     animation: flash 0.2s linear;
@@ -11,4 +21,19 @@ body.flash {
     100% {
         background-color: #ddd;
     }
+}
+
+#tempo-display {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #000;
+}
+
+#message-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

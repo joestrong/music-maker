@@ -20,7 +20,7 @@ gulp.task('styles', function() {
 
 gulp.task('watch', function() {
     gulp.watch('./js/**/*.js', ['scripts']);
-    gulp.watch('./css/**/*.css', ['scripts']);
+    gulp.watch('./css/**/*.css', ['styles']);
 });
 
 gulp.task('default', ['scripts', 'styles', 'watch']);
