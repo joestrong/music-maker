@@ -1,0 +1,14 @@
+body {
+    background: #ddd;
+}
+body.flash {
+    animation: flash 0.2s linear;
+}
+@-webkit-keyframes flash {
+    0% {
+        background-color: #000;
+    }
+    100% {
+        background-color: #ddd;
+    }
+}
